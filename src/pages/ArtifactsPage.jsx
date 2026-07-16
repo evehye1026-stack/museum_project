@@ -1,23 +1,18 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import ArtifactCard from '../components/ArtifactCard'
 import { useMuseumData } from '../hooks/useMuseumData'
 import '../styles/layout.css'
 import './ArtifactsPage.css'
 
 function ArtifactsPage() {
-  const { loading, artifacts } = useMuseumData()
+  const { loading, artifacts, museums } = useMuseumData()
   const [query, setQuery] = useState('')
-  const [hall, setHall] = useState('전체')
-
-  const halls = useMemo(
-    () => ['전체', ...new Set(artifacts.map((a) => a.hall))],
-    [artifacts],
-  )
+  const [museum, setMuseum] = useState('전체')
 
   const filtered = artifacts.filter((a) => {
     const matchesQuery = a.name.toLowerCase().includes(query.toLowerCase())
-    const matchesHall = hall === '전체' || a.hall === hall
-    return matchesQuery && matchesHall
+    const matchesMuseum = museum === '전체' || a.museum === museum
+    return matchesQuery && matchesMuseum
   })
 
   return (
@@ -27,7 +22,7 @@ function ArtifactsPage() {
           유물 도감
         </h1>
         <p style={{ color: 'var(--text-muted)', margin: '0 0 24px', fontSize: 14.5 }}>
-          국립중앙박물관 유물 {artifacts.length}점을 검색하고, 궁금한 유물과 직접
+          국립박물관 유물 {artifacts.length}점을 검색하고, 궁금한 유물과 직접
           대화해보세요.
         </p>
 
@@ -40,14 +35,14 @@ function ArtifactsPage() {
             className="artifact-search"
           />
           <div className="hall-chip-row">
-            {halls.map((h) => (
+            {['전체', ...museums].map((m) => (
               <button
-                key={h}
+                key={m}
                 type="button"
-                className={`hall-chip${hall === h ? ' active' : ''}`}
-                onClick={() => setHall(h)}
+                className={`hall-chip${museum === m ? ' active' : ''}`}
+                onClick={() => setMuseum(m)}
               >
-                {h}
+                {m}
               </button>
             ))}
           </div>

@@ -17,6 +17,17 @@
   flex-direction: column;
 }
 
+.course-card-darken {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(18, 32, 90, 0.72) 0%,
+    rgba(92, 115, 165, 0.55) 100%
+  );
+}
+
 .course-card-bg {
   position: absolute;
   inset: 0;
