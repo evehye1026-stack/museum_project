@@ -38,9 +38,11 @@ function App() {
         name: courseName,
         time: row['전체 관람 시간'],
         count: 0,
+        artifacts: [],
       }
     }
     courseMap[courseName].count += 1
+    courseMap[courseName].artifacts.push(row['유물명'])
   }
   const courses = Object.values(courseMap)
 
