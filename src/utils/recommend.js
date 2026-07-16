@@ -1,13 +1,3 @@
-export const THEME_OPTIONS = [
-  '역사',
-  '고고',
-  '조각·불교미술',
-  '도자·공예',
-  '왕실·금속공예',
-  '회화·서화',
-  '세계문화',
-]
-
 export const TIME_OPTIONS = [
   { id: 'short', label: '30~45분', test: (min) => min <= 45 },
   { id: 'medium', label: '46~70분', test: (min) => min > 45 && min <= 70 },

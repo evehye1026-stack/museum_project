@@ -21,60 +21,19 @@
   line-height: 1.6;
 }
 
-.chip-group {
-  margin-bottom: 18px;
-}
-
-.chip-group-label {
-  display: block;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-}
-
-.chip-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.chip {
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text-dark);
-  border-radius: 999px;
-  padding: 8px 16px;
-  font-size: 13.5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    border-color 0.15s ease;
-}
-
-.chip:hover {
-  border-color: var(--blue-slate);
-}
-
-.chip.active {
+.preference-cta {
+  display: inline-block;
   background: var(--accent);
-  border-color: var(--accent);
   color: #fff;
-}
-
-.preference-result {
-  margin-top: 24px;
-  padding-top: 24px;
-  border-top: 1px dashed var(--border);
-}
-
-.preference-result-label {
-  font-size: 13.5px;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-size: 14.5px;
   font-weight: 600;
-  color: var(--navy-deep);
-  margin: 0 0 14px;
+  text-decoration: none;
+}
+
+.preference-cta:hover {
+  background: var(--navy-deep);
 }
 
 @media (max-width: 768px) {
