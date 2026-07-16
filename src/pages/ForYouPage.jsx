@@ -1,98 +1,109 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import CourseCard from '../components/CourseCard'
-import CourseFeature from '../components/CourseFeature'
+import QuizVisual from '../components/QuizVisual'
+import { QUESTIONS, scoreResult } from '../data/quizData'
 import { useMuseumData } from '../hooks/useMuseumData'
-import { THEME_OPTIONS, TIME_OPTIONS, recommendCourses } from '../utils/recommend'
+import { recommendCourses } from '../utils/recommend'
 import '../styles/layout.css'
-import '../components/PreferenceWidget.css'
+import '../components/QuizVisual.css'
+import './ForYouPage.css'
 
 function ForYouPage() {
   const { loading, courses } = useMuseumData()
-  const [themes, setThemes] = useState([])
-  const [timeId, setTimeId] = useState(null)
+  const [step, setStep] = useState(0)
+  const [answers, setAnswers] = useState([])
 
-  const recommended = useMemo(
-    () => recommendCourses(courses, { themes, timeId }),
-    [courses, themes, timeId],
-  )
+  const isResult = step >= QUESTIONS.length
 
-  const [top, ...rest] = recommended
-  const hasPreference = themes.length > 0 || timeId !== null
+  function handleAnswer(type) {
+    setAnswers((prev) => [...prev, type])
+    setStep((prev) => prev + 1)
+  }
 
-  function toggleTheme(theme) {
-    setThemes((prev) =>
-      prev.includes(theme) ? prev.filter((t) => t !== theme) : [...prev, theme],
+  function handleRestart() {
+    setAnswers([])
+    setStep(0)
+  }
+
+  if (loading) {
+    return (
+      <section className="page">
+        <div className="page-inner">
+          <p style={{ color: 'var(--text-muted)' }}>코스 정보를 불러오는 중...</p>
+        </div>
+      </section>
     )
   }
+
+  if (!isResult) {
+    const question = QUESTIONS[step]
+    const progress = Math.round((step / QUESTIONS.length) * 100)
+
+    return (
+      <section className="page">
+        <div className="page-inner">
+          <div className="quiz-layout">
+            <QuizVisual step={step} total={QUESTIONS.length} />
+
+            <div className="quiz-panel">
+              <h1 className="quiz-panel-title">취향 코스 찾기</h1>
+              <p className="quiz-panel-subtitle">
+                질문 5개로 나에게 맞는 코스를 찾아드려요.
+              </p>
+
+              <div className="quiz-card">
+                <div className="quiz-progress">
+                  <div className="quiz-progress-bar" style={{ width: `${progress}%` }} />
+                </div>
+                <p className="quiz-step-label">
+                  {step + 1} / {QUESTIONS.length}
+                </p>
+                <h3 className="quiz-question">{question.text}</h3>
+                <div className="quiz-options">
+                  {question.options.map((option) => (
+                    <button
+                      key={option.label}
+                      type="button"
+                      className="quiz-option"
+                      onClick={() => handleAnswer(option.type)}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  const result = scoreResult(answers)
+  const recommended = recommendCourses(courses, { themes: [result.field] }).slice(0, 5)
 
   return (
     <section className="page">
       <div className="page-inner">
-        <h1 className="section-title" style={{ fontSize: 28, marginTop: 0 }}>
-          취향 코스 추천
-        </h1>
-        <p style={{ color: 'var(--text-muted)', margin: '0 0 28px', fontSize: 14.5 }}>
-          관심 테마와 관람 시간을 선택하면, 지금 당신에게 맞는 코스를 순위대로 보여드려요.
-        </p>
-
-        <div className="preference-widget">
-          <div className="chip-group">
-            <span className="chip-group-label">관심 테마</span>
-            <div className="chip-row">
-              {THEME_OPTIONS.map((theme) => (
-                <button
-                  key={theme}
-                  className={`chip${themes.includes(theme) ? ' active' : ''}`}
-                  onClick={() => toggleTheme(theme)}
-                  type="button"
-                >
-                  {theme}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="chip-group">
-            <span className="chip-group-label">관람 시간</span>
-            <div className="chip-row">
-              {TIME_OPTIONS.map((option) => (
-                <button
-                  key={option.id}
-                  className={`chip${timeId === option.id ? ' active' : ''}`}
-                  onClick={() =>
-                    setTimeId((prev) => (prev === option.id ? null : option.id))
-                  }
-                  type="button"
-                >
-                  {option.label}
-                </button>
-              ))}
-            </div>
-          </div>
+        <div className="quiz-result-header">
+          <p className="quiz-result-eyebrow">당신의 취향 유형은</p>
+          <h1 className="quiz-result-name">{result.name}</h1>
+          <p className="quiz-result-field">#{result.field}</p>
+          <p className="quiz-result-desc">{result.desc}</p>
+          <button type="button" className="quiz-restart" onClick={handleRestart}>
+            다시 하기
+          </button>
         </div>
 
-        {loading ? (
-          <p style={{ color: 'var(--text-muted)' }}>코스 정보를 불러오는 중...</p>
-        ) : hasPreference && top ? (
+        {recommended.length > 0 && (
           <>
-            <h3 className="section-title">1순위 추천 코스</h3>
-            <CourseFeature course={top} />
-
-            {rest.length > 0 && (
-              <>
-                <h3 className="section-title">그 다음으로 어울리는 코스</h3>
-                <div className="card-grid">
-                  {rest.slice(0, 5).map((course) => (
-                    <CourseCard key={course.id} course={course} />
-                  ))}
-                </div>
-              </>
-            )}
+            <h3 className="section-title">이런 코스는 어떠세요?</h3>
+            <div className="card-grid">
+              {recommended.map((course) => (
+                <CourseCard key={course.id} course={course} />
+              ))}
+            </div>
           </>
-        ) : (
-          <p style={{ color: 'var(--text-muted)' }}>
-            테마나 시간을 선택하면 맞춤 코스를 추천해드려요.
-          </p>
         )}
       </div>
     </section>
