@@ -10,7 +10,7 @@ function ArtifactCard({ artifact }) {
       </div>
       <div className="artifact-card-body">
         <p className="artifact-card-hall">
-          {artifact.hall} · {artifact.room}
+          {artifact.museum} · {artifact.hall} · {artifact.room}
         </p>
         <h4 className="artifact-card-name">{artifact.name}</h4>
       </div>

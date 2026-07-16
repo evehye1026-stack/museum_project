@@ -3,6 +3,7 @@ import Logo from './Logo'
 import './Header.css'
 
 const NAV_ITEMS = [
+  { to: '/', label: '홈', end: true },
   { to: '/courses', label: '전시 코스' },
   { to: '/for-you', label: '취향 코스 추천' },
   { to: '/artifacts', label: '유물 도감' },
@@ -108,64 +109,25 @@ function Header() {
   return (
     <>
       <header className="header">
-        <div className="header-inner">
+        <div className="header-top">
           <NavLink to="/" className="logo" aria-label="처마 홈으로 이동">
             <Logo />
             <span className="logo-text">처마</span>
           </NavLink>
-
-          <nav className="nav-menu">
-            {NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) => (isActive ? 'active' : '')}
-              >
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
-
-          <div className="header-icons">
-            <button className="icon-btn" aria-label="검색">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <circle
-                  cx="11"
-                  cy="11"
-                  r="7"
-                  stroke="#1A1A1A"
-                  strokeWidth="1.6"
-                />
-                <line
-                  x1="21"
-                  y1="21"
-                  x2="16.2"
-                  y2="16.2"
-                  stroke="#1A1A1A"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-            <button className="icon-btn" aria-label="마이페이지">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <circle
-                  cx="12"
-                  cy="8"
-                  r="4"
-                  stroke="#1A1A1A"
-                  strokeWidth="1.6"
-                />
-                <path
-                  d="M4 20c0-4 3.6-6 8-6s8 2 8 6"
-                  stroke="#1A1A1A"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-          </div>
         </div>
+
+        <nav className="nav-menu">
+          {NAV_ITEMS.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end}
+              className={({ isActive }) => (isActive ? 'active' : '')}
+            >
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
       </header>
 
       <nav className="mobile-tabbar">

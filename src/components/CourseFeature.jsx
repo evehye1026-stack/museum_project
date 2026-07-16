@@ -1,12 +1,27 @@
 import ArtifactVisual from './ArtifactVisual'
 import StepTimeline from './StepTimeline'
+import { MUSEUM_PHOTOS } from '../data/museumPhotos'
 import './CourseFeature.css'
 
 function CourseFeature({ course }) {
+  const photo = MUSEUM_PHOTOS[course.museum]
+
   return (
     <div className="course-feature">
-      <div className="course-card">
+      <div
+        className="course-card"
+        style={
+          photo
+            ? {
+                backgroundImage: `url(${photo})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }
+            : undefined
+        }
+      >
         <div className="course-card-bg" />
+        {photo && <div className="course-card-darken" />}
         <p className="course-card-museum">{course.museum}</p>
         <h3 className="course-card-title">{course.name}</h3>
         <ArtifactVisual className="artifact-visual" />

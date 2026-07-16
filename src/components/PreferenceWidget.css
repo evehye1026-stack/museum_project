@@ -6,6 +6,24 @@
   margin-bottom: 40px;
 }
 
+.preference-teaser {
+  display: block;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy-deep);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.preference-teaser:hover {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+
 .preference-title {
   font-family: var(--font-serif);
   font-size: 22px;

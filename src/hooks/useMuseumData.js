@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import Papa from 'papaparse'
 
-const TARGET_MUSEUM = '국립중앙박물관'
-
 const HALL_THEMES = {
   '역사의 길': ['역사'],
   '선사·고대관': ['역사', '고고'],
@@ -83,7 +81,7 @@ function buildCourses(rows) {
     return {
       id: slugify(name),
       name,
-      museum: TARGET_MUSEUM,
+      museum: courseRows[0]['박물관명'],
       totalMinutes,
       halls,
       themeTags,
@@ -97,25 +95,29 @@ function buildCourses(rows) {
 }
 
 function buildArtifacts(rows) {
-  const byName = new Map()
+  // 유물명만으로 묶으면 서로 다른 박물관의 동명 유물(예: 주먹도끼)이 하나로
+  // 합쳐져 버리므로, 박물관 + 유물명을 키로 묶는다.
+  const byKey = new Map()
   for (const row of rows) {
     const name = row['유물명']
+    const museum = row['박물관명']
     if (!name) continue
-    if (!byName.has(name)) {
-      byName.set(name, {
-        id: slugify(name),
+    const key = `${museum}::${name}`
+    if (!byKey.has(key)) {
+      byKey.set(key, {
+        id: slugify(`${museum} ${name}`),
         name,
-        museum: TARGET_MUSEUM,
+        museum,
         hall: row['전시관명'],
         room: row['전시실명'],
         caseNo: row['진열장 번호'],
         courses: new Set(),
       })
     }
-    byName.get(name).courses.add((row['추천코스명'] || '').trim())
+    byKey.get(key).courses.add((row['추천코스명'] || '').trim())
   }
 
-  return [...byName.values()]
+  return [...byKey.values()]
     .map((a) => ({ ...a, courses: [...a.courses] }))
     .sort((a, b) => a.name.localeCompare(b.name, 'ko'))
 }
@@ -133,7 +135,7 @@ export function useMuseumData() {
           header: true,
           skipEmptyLines: true,
         })
-        setRows(parsed.data.filter((r) => r['박물관명'] === TARGET_MUSEUM))
+        setRows(parsed.data.filter((r) => r['박물관명']))
       })
       .catch((err) => setError(err))
   }, [])
@@ -141,6 +143,7 @@ export function useMuseumData() {
   const loading = rows === null && !error
   const courses = rows ? buildCourses(rows) : []
   const artifacts = rows ? buildArtifacts(rows) : []
+  const museums = rows ? [...new Set(rows.map((r) => r['박물관명']))] : []
 
-  return { loading, error, courses, artifacts }
+  return { loading, error, courses, artifacts, museums }
 }
