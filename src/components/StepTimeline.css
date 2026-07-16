@@ -1,0 +1,63 @@
+.step-timeline {
+  display: flex;
+  align-items: flex-start;
+  margin-top: auto;
+}
+
+.step-wrap {
+  display: flex;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  min-width: 0;
+}
+
+.step-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  border: 3px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--border);
+  flex-shrink: 0;
+}
+
+.step-hall {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-dark);
+  white-space: nowrap;
+}
+
+.step-time {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.step-connector {
+  flex: 1;
+  height: 2px;
+  margin: 16px 6px 0;
+  border-top: 2px dashed #c9cfe0;
+  min-width: 12px;
+}
+
+@media (max-width: 768px) {
+  .step-timeline {
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+}

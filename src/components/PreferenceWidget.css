@@ -1,0 +1,85 @@
+.preference-widget {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 32px;
+  margin-bottom: 40px;
+}
+
+.preference-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--navy-deep);
+  margin: 0 0 8px;
+}
+
+.preference-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0 0 22px;
+  line-height: 1.6;
+}
+
+.chip-group {
+  margin-bottom: 18px;
+}
+
+.chip-group-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-dark);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.chip:hover {
+  border-color: var(--blue-slate);
+}
+
+.chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.preference-result {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--border);
+}
+
+.preference-result-label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--navy-deep);
+  margin: 0 0 14px;
+}
+
+@media (max-width: 768px) {
+  .preference-widget {
+    padding: 20px;
+    border-radius: 16px;
+  }
+}

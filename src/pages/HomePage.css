@@ -1,0 +1,45 @@
+.hero-eyebrow {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy-deep);
+  margin: 0 0 4px;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  font-weight: 700;
+  margin: 0 0 20px;
+  color: var(--navy-deep);
+  line-height: 1.35;
+}
+
+.hero-subtitle {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 28px;
+  color: var(--text-dark);
+}
+
+.hero-loading {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .hero-eyebrow {
+    font-size: 16px;
+  }
+
+  .hero-title {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    margin-bottom: 18px;
+  }
+}

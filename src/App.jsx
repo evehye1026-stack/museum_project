@@ -1,70 +1,30 @@
-import { useEffect, useState } from 'react'
-import Papa from 'papaparse'
-import MuseumSelector from './components/MuseumSelector'
-import CourseCard from './components/CourseCard'
+import { Route, Routes } from 'react-router-dom'
+import ChatPanel from './components/ChatPanel'
+import Header from './components/Header'
+import { ChatbotProvider } from './context/ChatbotContext'
+import ArtifactDetailPage from './pages/ArtifactDetailPage'
+import ArtifactsPage from './pages/ArtifactsPage'
+import CourseDetailPage from './pages/CourseDetailPage'
+import CoursesPage from './pages/CoursesPage'
+import ForYouPage from './pages/ForYouPage'
+import HomePage from './pages/HomePage'
 
 function App() {
-  const [rows, setRows] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [selectedMuseum, setSelectedMuseum] = useState(null)
-
-  useEffect(() => {
-    fetch('/courses.csv')
-      .then((res) => res.text())
-      .then((text) => {
-        const clean = text.charCodeAt(0) === 0xfeff ? text.slice(1) : text
-        const parsed = Papa.parse(clean, {
-          header: true,
-          skipEmptyLines: true,
-        })
-        setRows(parsed.data)
-        setLoading(false)
-      })
-  }, [])
-
-  if (loading) {
-    return <p>불러오는 중...</p>
-  }
-
-  const museums = [...new Set(rows.map((row) => row['박물관명']))]
-
-  const museumRows = rows.filter((row) => row['박물관명'] === selectedMuseum)
-
-  const courseMap = {}
-  for (const row of museumRows) {
-    const courseName = row['추천코스명']
-    if (!courseMap[courseName]) {
-      courseMap[courseName] = {
-        name: courseName,
-        time: row['전체 관람 시간'],
-        count: 0,
-      }
-    }
-    courseMap[courseName].count += 1
-  }
-  const courses = Object.values(courseMap)
-
   return (
-    <div>
-      <h1>박물관 코스 요약</h1>
+    <ChatbotProvider>
+      <Header />
 
-      <MuseumSelector
-        museums={museums}
-        selectedMuseum={selectedMuseum}
-        onSelect={setSelectedMuseum}
-      />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/courses" element={<CoursesPage />} />
+        <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+        <Route path="/for-you" element={<ForYouPage />} />
+        <Route path="/artifacts" element={<ArtifactsPage />} />
+        <Route path="/artifacts/:artifactId" element={<ArtifactDetailPage />} />
+      </Routes>
 
-      {selectedMuseum && (
-        <div>
-          <h2>{selectedMuseum}</h2>
-          <ul>
-            {courses.map((course) => (
-              <CourseCard key={course.name} course={course} />
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+      <ChatPanel />
+    </ChatbotProvider>
   )
 }
 
