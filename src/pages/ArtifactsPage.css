@@ -1,0 +1,42 @@
+.artifact-filters {
+  margin-bottom: 24px;
+}
+
+.artifact-search {
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  margin-bottom: 14px;
+  background: var(--surface);
+  color: var(--text-dark);
+}
+
+.artifact-search:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.hall-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hall-chip {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.hall-chip.active {
+  background: var(--navy-deep);
+  border-color: var(--navy-deep);
+  color: #fff;
+}

@@ -1,0 +1,90 @@
+.artifact-detail {
+  display: flex;
+  gap: 32px;
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 36px;
+  border: 1px solid var(--border);
+}
+
+.artifact-detail-visual {
+  flex-shrink: 0;
+  width: 200px;
+  height: 240px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--blue-soft) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artifact-detail-svg {
+  width: 110px;
+  height: 140px;
+}
+
+.artifact-detail-hall {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 8px;
+}
+
+.artifact-detail-name {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy-deep);
+  margin: 0 0 10px;
+}
+
+.artifact-detail-case {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 24px;
+}
+
+.chat-cta {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chat-cta:hover {
+  background: var(--navy-deep);
+}
+
+.related-course-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+}
+
+.related-course-list a {
+  color: var(--blue-mid);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.related-course-list a:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .artifact-detail {
+    flex-direction: column;
+    padding: 24px;
+  }
+
+  .artifact-detail-visual {
+    width: 100%;
+    height: 180px;
+  }
+}
