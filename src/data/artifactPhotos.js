@@ -62,4 +62,12 @@ export const ARTIFACT_PHOTOS = {
   '국립김해박물관 비취옥과 유리구슬 목걸이': '/images/gimhae-glassbead-necklace.png',
   '국립김해박물관 유행 따라 나를 드러내는 장신구': '/images/gimhae-gold-earring.png',
   '국립부여박물관 광배': '/images/buyeo-gwangbae.jpg',
+  '국립부여박물관 호자': '/images/buyeo-hoja.jpg',
+  '국립부여박물관 은꽃모양 관꾸미개': '/images/buyeo-eunkkot-gwan-kkumigae.jpg',
+  '국립부여박물관 창왕명석조사리감': '/images/buyeo-changwangmyeong-sarigam.jpg',
+  '국립부여박물관 연꽃무늬 수막새': '/images/buyeo-yeonkkotmuni-sumaksae.jpg',
+  '국립부여박물관 사택지적비': '/images/buyeo-sataekjijeokbi.jpg',
+  '국립부여박물관 백제금동대향로': '/images/buyeo-baekje-geumdong-daehyangno.jpg',
+  '국립부여박물관 금동보살입상': '/images/buyeo-geumdong-bosal-ipsang.jpg',
+  '국립부여박물관 금동관음보살입상': '/images/buyeo-geumdong-gwaneum-bosal-ipsang.jpg',
 }
