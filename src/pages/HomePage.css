@@ -1,32 +1,22 @@
 .hero-eyebrow {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
+  text-align: center;
+  white-space: nowrap;
   font-family: var(--font-serif);
-  font-size: 34px;
+  font-size: 26px;
   font-weight: 700;
   color: var(--navy-deep);
-  margin: 0 0 4px;
+  margin: 0 0 16px;
 }
 
-.hero-eyebrow-hanja {
-  font-family: var(--font-serif);
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
-.hero-subtitle {
+.hero-intro-body {
+  max-width: 860px;
+  margin: 0 auto 36px;
+  text-align: center;
   font-family: var(--font-sans);
-  font-size: 22px;
-  font-weight: 700;
-  margin: 0 0 28px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.75;
   color: var(--text-dark);
-}
-
-.hero-loading {
-  color: var(--text-muted);
-  font-size: 14px;
 }
 
 .home-split-row {
@@ -37,9 +27,22 @@
 }
 
 .home-split-card {
+  /* --card-bg-image: 실제 배경 이미지가 준비되면 이 값만 url(...)로 채우면 된다.
+     이미지가 없거나 로드에 실패해도 흰색 오버레이 + --card-fallback-bg만 보여
+     레이아웃이 깨지지 않는다. */
+  --card-bg-image: none;
+  --card-fallback-bg: #eef1f6;
+
+  position: relative;
   display: flex;
   flex-direction: column;
-  background: var(--surface);
+  justify-content: flex-end;
+  min-height: 260px;
+  background-color: var(--card-fallback-bg);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82)),
+    var(--card-bg-image);
+  background-size: cover;
+  background-position: center;
   border: 1px solid var(--border);
   border-radius: 20px;
   overflow: hidden;
@@ -56,36 +59,19 @@
   box-shadow: 0 14px 28px rgba(18, 32, 90, 0.1);
 }
 
-.home-split-card--course,
+/* 한지/전통 문양 텍스처 배경(은은하게). 이미지가 준비되면 이 경로에 파일만 추가하면 된다. */
+.home-split-card--course {
+  --card-bg-image: url('/images/course-hanji-texture.jpg');
+}
+
+/* 유물(도자기) 이미지 배경. 이미지가 준비되면 이 경로에 파일만 추가하면 된다. */
 .home-split-card--artifact {
-  background: #e2ecf7;
-}
-
-.home-split-visual {
-  position: relative;
-  height: 120px;
-  overflow: hidden;
-}
-
-.home-split-visual--icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(180deg, #cfe0f2 0%, #e2ecf7 130%);
-}
-
-.home-split-icon-img {
-  width: 92px;
-  height: 92px;
-  object-fit: contain;
+  --card-bg-image: url('/images/artifact-pottery.jpg');
 }
 
 .home-split-body {
+  position: relative;
   padding: 22px 26px 26px;
-}
-
-.home-split-body--center {
-  text-align: center;
 }
 
 .home-split-title {
@@ -116,24 +102,21 @@
 
 @media (max-width: 768px) {
   .hero-eyebrow {
-    font-size: 24px;
+    font-size: 15.5px;
+    margin-bottom: 12px;
   }
 
-  .hero-eyebrow-hanja {
-    font-size: 14px;
-  }
-
-  .hero-subtitle {
-    font-size: 18px;
-    margin-bottom: 18px;
+  .hero-intro-body {
+    font-size: 15.5px;
+    margin-bottom: 24px;
   }
 
   .home-split-row {
     grid-template-columns: 1fr;
   }
 
-  .home-split-visual {
-    height: 108px;
+  .home-split-card {
+    min-height: 200px;
   }
 
   .home-split-body {

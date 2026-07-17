@@ -1,0 +1,162 @@
+.intro-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.intro-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--blue-slate) 100%);
+  transition:
+    transform 1.4s cubic-bezier(0.65, 0, 0.35, 1),
+    filter 0.3s ease;
+}
+
+.intro-door--left {
+  left: 0;
+}
+
+.intro-door--right {
+  right: 0;
+}
+
+.intro-splash:hover .intro-door {
+  filter: brightness(1.1);
+}
+
+.intro-splash--open .intro-door--left {
+  transform: translateX(-100%);
+}
+
+.intro-splash--open .intro-door--right {
+  transform: translateX(100%);
+}
+
+/* 처마 지붕 - 문 위에 고정되어 문이 열려도 그대로 남는다 */
+.intro-roof {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .intro-roof {
+    height: 56px;
+  }
+}
+
+/* 문틈 - 마우스를 올리면 은은하게 빛난다 */
+.intro-seam {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.35);
+  opacity: 0.5;
+  transition:
+    opacity 0.3s ease,
+    box-shadow 0.3s ease;
+  pointer-events: none;
+}
+
+.intro-splash:hover .intro-seam {
+  opacity: 1;
+  box-shadow: 0 0 28px 8px rgba(255, 255, 255, 0.55);
+}
+
+.intro-splash--open .intro-seam {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.intro-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.intro-splash--open .intro-content {
+  opacity: 0;
+}
+
+.intro-text {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-serif);
+  font-size: 40px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.intro-text-hanja {
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.intro-hint {
+  margin: 4px 0 0;
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 500;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.12em;
+  animation: intro-hint-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes intro-hint-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .intro-text {
+    font-size: 28px;
+  }
+
+  .intro-text-hanja {
+    font-size: 15px;
+  }
+
+  .intro-hint {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-door,
+  .intro-content,
+  .intro-seam {
+    transition: none;
+  }
+
+  .intro-hint {
+    animation: none;
+  }
+}
