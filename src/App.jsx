@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import ChatPanel from './components/ChatPanel'
 import Header from './components/Header'
 import { ChatbotProvider } from './context/ChatbotContext'
@@ -10,6 +10,9 @@ import ForYouPage from './pages/ForYouPage'
 import HomePage from './pages/HomePage'
 
 function App() {
+  const location = useLocation()
+  const showChat = location.pathname.startsWith('/artifacts')
+
   return (
     <ChatbotProvider>
       <Header />
@@ -23,7 +26,7 @@ function App() {
         <Route path="/artifacts/:artifactId" element={<ArtifactDetailPage />} />
       </Routes>
 
-      <ChatPanel />
+      {showChat && <ChatPanel />}
     </ChatbotProvider>
   )
 }

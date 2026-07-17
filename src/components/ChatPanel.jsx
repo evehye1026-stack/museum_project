@@ -35,6 +35,7 @@ function ChatPanel() {
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [tooltipDismissed, setTooltipDismissed] = useState(false)
   const listRef = useRef(null)
 
   const pickableArtifacts = artifacts.filter(isChatEnabled)
@@ -46,6 +47,12 @@ function ChatPanel() {
       setMessages([])
     }
   }, [artifact])
+
+  useEffect(() => {
+    const handleScroll = () => setTooltipDismissed(window.scrollY > 0)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight })
@@ -86,6 +93,13 @@ function ChatPanel() {
 
   return (
     <>
+      {!isOpen && !tooltipDismissed && (
+        <div className="chat-fab-tooltip">
+          유물을 누르면 숨겨진
+          <br />옛 이야기가 시작됩니다.
+        </div>
+      )}
+
       <button
         className="chat-fab"
         type="button"

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import ArtifactCard from '../components/ArtifactCard'
 import { useMuseumData } from '../hooks/useMuseumData'
-import { isChatEnabled } from '../lib/personaBuilder'
 import '../styles/layout.css'
 import './ArtifactsPage.css'
 import './CoursesPage.css'
@@ -10,13 +9,11 @@ function ArtifactsPage() {
   const { loading, artifacts, museums } = useMuseumData()
   const [query, setQuery] = useState('')
   const [museum, setMuseum] = useState('전체')
-  const [chatOnly, setChatOnly] = useState(false)
 
   const filtered = artifacts.filter((a) => {
     const matchesQuery = a.name.toLowerCase().includes(query.toLowerCase())
     const matchesMuseum = museum === '전체' || a.museum === museum
-    const matchesChat = !chatOnly || isChatEnabled(a)
-    return matchesQuery && matchesMuseum && matchesChat
+    return matchesQuery && matchesMuseum
   })
 
   return (
@@ -39,14 +36,6 @@ function ArtifactsPage() {
             className="artifact-search"
           />
           <div className="hall-chip-row course-chip-row">
-            <button
-              type="button"
-              className={`hall-chip course-chip${chatOnly ? ' active' : ''}`}
-              onClick={() => setChatOnly((v) => !v)}
-            >
-              💬 대화 가능한 유물만
-            </button>
-            <span className="course-chip-break" aria-hidden="true" />
             {['전체', ...museums].flatMap((m) => [
               ...(m === '국립대구박물관'
                 ? [<span key="break" className="course-chip-break" aria-hidden="true" />]
