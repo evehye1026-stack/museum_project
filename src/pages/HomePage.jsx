@@ -1,47 +1,51 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import CourseCard from '../components/CourseCard'
-import { useMuseumData } from '../hooks/useMuseumData'
+import IntroSplash from '../components/IntroSplash'
 import '../styles/layout.css'
 import './HomePage.css'
 
+const INTRO_SEEN_KEY = 'godam-intro-seen'
+
+function shouldShowIntro() {
+  return !sessionStorage.getItem(INTRO_SEEN_KEY)
+}
+
 function HomePage() {
-  const { loading, courses } = useMuseumData()
+  const [showIntro, setShowIntro] = useState(shouldShowIntro)
+
+  function dismissIntro() {
+    sessionStorage.setItem(INTRO_SEEN_KEY, '1')
+    setShowIntro(false)
+  }
 
   return (
     <section className="page">
+      {showIntro && <IntroSplash onDone={dismissIntro} />}
       <div className="page-inner">
-        <p className="hero-eyebrow">
-          고담<span className="hero-eyebrow-hanja">古談</span>
+        <p className="hero-eyebrow">고담 : 오래되고 아름다운 이야기, 옛이야기</p>
+        <p className="hero-intro-body">
+          전국 국립박물관 방방곡곡에는 저마다의 시간과 사연을 품은 유물들이 잠들어 있습니다.
+          <br />
+          고담은 그 오래된 이야기들을 꺼내어 당신만의 관람 코스로 엮어드려요.
+          <br />
+          몇 가지 질문에 답하여 취향에 꼭 맞는 산책 코스를 추천받고,
+          <br />
+          유물 하나하나가 들려주는 옛이야기에 조용히 귀 기울여보세요.
         </p>
-        <h2 className="hero-subtitle">전국 국립 박물관 코스</h2>
 
         <div className="home-split-row">
           <Link to="/for-you" className="home-split-card home-split-card--course">
-            <div className="home-split-visual home-split-visual--icon">
-              <img
-                src="/images/course-icon.png"
-                alt="처마 지붕 아이콘"
-                className="home-split-icon-img"
-              />
-            </div>
-            <div className="home-split-body home-split-body--center">
+            <div className="home-split-body">
               <h3 className="home-split-title">나의 옛이야기 찾기</h3>
               <p className="home-split-desc">
-                몇 가지 질문으로 만나는 나만의 관람 코스
+                몇 가지 질문으로 만나는 나만의 산책 코스
               </p>
               <span className="home-split-cta">추천 코스 보기 →</span>
             </div>
           </Link>
 
           <Link to="/artifacts" className="home-split-card home-split-card--artifact">
-            <div className="home-split-visual home-split-visual--icon">
-              <img
-                src="/images/artifact-icon.png"
-                alt="청화백자 항아리 아이콘"
-                className="home-split-icon-img"
-              />
-            </div>
-            <div className="home-split-body home-split-body--center">
+            <div className="home-split-body">
               <h3 className="home-split-title">유물이 들려주는 이야기</h3>
               <p className="home-split-desc">
                 유물과 나누는 이야기를 새로운 시선으로 탐색해보세요
@@ -50,19 +54,6 @@ function HomePage() {
             </div>
           </Link>
         </div>
-
-        {loading ? (
-          <p className="hero-loading">코스 정보를 불러오는 중...</p>
-        ) : (
-          <>
-            <h3 className="section-title">전시 코스 둘러보기</h3>
-            <div className="card-grid">
-              {courses.map((course) => (
-                <CourseCard key={course.id} course={course} />
-              ))}
-            </div>
-          </>
-        )}
       </div>
     </section>
   )
