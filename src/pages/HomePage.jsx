@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import CourseCard from '../components/CourseCard'
-import Logo from '../components/Logo'
+import RoofIcon from '../components/RoofIcon'
 import VaseIcon from '../components/VaseIcon'
 import { useMuseumData } from '../hooks/useMuseumData'
 import '../styles/layout.css'
@@ -18,7 +18,7 @@ function HomePage() {
         <div className="home-split-row">
           <Link to="/for-you" className="home-split-card">
             <div className="home-split-icon">
-              <Logo />
+              <RoofIcon />
             </div>
             <h3 className="home-split-title">취향 코스 추천</h3>
             <p className="home-split-desc">
