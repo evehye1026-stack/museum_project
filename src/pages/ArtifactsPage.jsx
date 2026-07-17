@@ -3,6 +3,7 @@ import ArtifactCard from '../components/ArtifactCard'
 import { useMuseumData } from '../hooks/useMuseumData'
 import '../styles/layout.css'
 import './ArtifactsPage.css'
+import './CoursesPage.css'
 
 function ArtifactsPage() {
   const { loading, artifacts, museums } = useMuseumData()
@@ -34,17 +35,20 @@ function ArtifactsPage() {
             onChange={(e) => setQuery(e.target.value)}
             className="artifact-search"
           />
-          <div className="hall-chip-row">
-            {['전체', ...museums].map((m) => (
+          <div className="hall-chip-row course-chip-row">
+            {['전체', ...museums].flatMap((m) => [
+              ...(m === '국립대구박물관'
+                ? [<span key="break" className="course-chip-break" aria-hidden="true" />]
+                : []),
               <button
                 key={m}
                 type="button"
-                className={`hall-chip${museum === m ? ' active' : ''}`}
+                className={`hall-chip course-chip${museum === m ? ' active' : ''}`}
                 onClick={() => setMuseum(m)}
               >
                 {m}
-              </button>
-            ))}
+              </button>,
+            ])}
           </div>
         </div>
 
