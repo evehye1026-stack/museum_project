@@ -22,7 +22,7 @@
 
 .hero-intro-body {
   max-width: 860px;
-  margin: 0 auto 36px;
+  margin: 0 auto 64px;
   text-align: center;
   font-family: var(--font-sans);
   font-size: 18px;
@@ -139,7 +139,7 @@
 
   .hero-intro-body {
     font-size: 15.5px;
-    margin-bottom: 24px;
+    margin-bottom: 40px;
   }
 
   .home-split-row {

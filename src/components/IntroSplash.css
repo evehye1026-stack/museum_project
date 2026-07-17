@@ -102,14 +102,14 @@
   align-items: baseline;
   gap: 10px;
   font-family: var(--font-serif);
-  font-size: 40px;
+  font-size: 52px;
   font-weight: 700;
   color: #fff;
   margin: 0;
 }
 
 .intro-text-hanja {
-  font-size: 20px;
+  font-size: 27px;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
 }
@@ -117,7 +117,7 @@
 .intro-hint {
   margin: 4px 0 0;
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 500;
   font-style: italic;
   color: rgba(255, 255, 255, 0.6);
@@ -137,15 +137,15 @@
 
 @media (max-width: 768px) {
   .intro-text {
-    font-size: 28px;
+    font-size: 36px;
   }
 
   .intro-text-hanja {
-    font-size: 15px;
+    font-size: 19px;
   }
 
   .intro-hint {
-    font-size: 12px;
+    font-size: 15px;
   }
 }
 
