@@ -77,6 +77,11 @@
   opacity: 0.95;
 }
 
+.artifact-visual-photo {
+  object-fit: contain;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.35));
+}
+
 .color-tags {
   position: relative;
   list-style: none;

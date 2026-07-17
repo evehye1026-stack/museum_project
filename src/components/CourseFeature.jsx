@@ -1,10 +1,13 @@
 import ArtifactVisual from './ArtifactVisual'
 import StepTimeline from './StepTimeline'
+import { ARTIFACT_PHOTOS } from '../data/artifactPhotos'
 import { MUSEUM_PHOTOS } from '../data/museumPhotos'
 import './CourseFeature.css'
 
 function CourseFeature({ course }) {
   const photo = MUSEUM_PHOTOS[course.museum]
+  const highlightPhoto =
+    ARTIFACT_PHOTOS[`${course.museum} ${course.highlightArtifact}`.trim()]
 
   return (
     <div className="course-feature">
@@ -24,7 +27,15 @@ function CourseFeature({ course }) {
         {photo && <div className="course-card-darken" />}
         <p className="course-card-museum">{course.museum}</p>
         <h3 className="course-card-title">{course.name}</h3>
-        <ArtifactVisual className="artifact-visual" />
+        {highlightPhoto ? (
+          <img
+            src={highlightPhoto}
+            alt={course.highlightArtifact}
+            className="artifact-visual artifact-visual-photo"
+          />
+        ) : (
+          <ArtifactVisual className="artifact-visual" />
+        )}
         <ul className="color-tags">
           {course.colors.map((c) => (
             <li key={c}>
