@@ -23,14 +23,14 @@
 .logo-text {
   font-family: var(--font-serif);
   font-weight: 700;
-  font-size: 19px;
+  font-size: 28px;
   color: var(--navy-deep);
 }
 
 .logo-hanja {
   font-family: var(--font-serif);
   font-weight: 500;
-  font-size: 12px;
+  font-size: 17px;
   color: var(--text-muted);
   line-height: 1;
 }

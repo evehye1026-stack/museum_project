@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import ArtifactVisual from '../components/ArtifactVisual'
 import { useChatbot } from '../context/ChatbotContext'
+import { ARTIFACT_PHOTOS } from '../data/artifactPhotos'
 import { useEmuseumRelic } from '../hooks/useEmuseumRelic'
 import { useMuseumData } from '../hooks/useMuseumData'
 import { isChatEnabled } from '../lib/personaBuilder'
@@ -37,6 +38,7 @@ function ArtifactDetailPage() {
   }
 
   const relatedCourses = courses.filter((c) => artifact.courses.includes(c.name))
+  const photo = ARTIFACT_PHOTOS[artifact.id] || emuseumDetail?.imgUri
 
   return (
     <section className="page">
@@ -47,12 +49,8 @@ function ArtifactDetailPage() {
 
         <div className="artifact-detail">
           <div className="artifact-detail-visual">
-            {emuseumDetail?.imgUri ? (
-              <img
-                src={emuseumDetail.imgUri}
-                alt={artifact.name}
-                className="artifact-detail-photo"
-              />
+            {photo ? (
+              <img src={photo} alt={artifact.name} className="artifact-detail-photo" />
             ) : (
               <ArtifactVisual className="artifact-detail-svg" />
             )}
