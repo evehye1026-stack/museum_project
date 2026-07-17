@@ -12,10 +12,11 @@ export function ChatbotProvider({ children }) {
   }, [])
 
   const closeChat = useCallback(() => setIsOpen(false), [])
+  const resetArtifact = useCallback(() => setArtifact(null), [])
 
   return (
     <ChatbotContext.Provider
-      value={{ isOpen, artifact, openChat, closeChat }}
+      value={{ isOpen, artifact, openChat, closeChat, resetArtifact }}
     >
       {children}
     </ChatbotContext.Provider>

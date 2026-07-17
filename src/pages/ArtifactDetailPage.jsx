@@ -1,47 +1,11 @@
-import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ArtifactVisual from '../components/ArtifactVisual'
 import { useChatbot } from '../context/ChatbotContext'
-import { findRelicByName, fetchRelicDetail } from '../data/emuseumApi'
+import { useEmuseumRelic } from '../hooks/useEmuseumRelic'
 import { useMuseumData } from '../hooks/useMuseumData'
+import { isChatEnabled } from '../lib/personaBuilder'
 import '../styles/layout.css'
 import './ArtifactDetailPage.css'
-
-function useEmuseumRelic(name) {
-  const [status, setStatus] = useState('idle')
-  const [detail, setDetail] = useState(null)
-
-  useEffect(() => {
-    if (!name) return
-
-    let cancelled = false
-    setStatus('loading')
-    setDetail(null)
-
-    findRelicByName(name)
-      .then((match) => {
-        if (cancelled) return
-        if (!match) {
-          setStatus('notfound')
-          return
-        }
-        return fetchRelicDetail(match.id).then((data) => {
-          if (cancelled) return
-          setDetail(data)
-          setStatus('done')
-        })
-      })
-      .catch(() => {
-        if (!cancelled) setStatus('error')
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [name])
-
-  return { status, detail }
-}
 
 function ArtifactDetailPage() {
   const { artifactId } = useParams()
@@ -128,13 +92,15 @@ function ArtifactDetailPage() {
               </div>
             )}
 
-            <button
-              type="button"
-              className="chat-cta"
-              onClick={() => openChat(artifact)}
-            >
-              💬 이 유물과 대화하기
-            </button>
+            {isChatEnabled(artifact) && (
+              <button
+                type="button"
+                className="chat-cta"
+                onClick={() => openChat(artifact)}
+              >
+                💬 이 유물과 대화하기
+              </button>
+            )}
 
             {relatedCourses.length > 0 && (
               <div className="artifact-detail-courses">

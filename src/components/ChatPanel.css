@@ -53,11 +53,18 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .chat-panel-avatar-svg {
   width: 22px;
   height: 28px;
+}
+
+.chat-panel-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .chat-panel-name {
@@ -73,18 +80,33 @@
   margin: 2px 0 0;
 }
 
-.chat-panel-close {
+.chat-panel-actions {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-panel-restart,
+.chat-panel-close {
   background: none;
   border: none;
   color: #fff;
   font-size: 15px;
   cursor: pointer;
   opacity: 0.8;
+  display: flex;
+  align-items: center;
 }
 
+.chat-panel-restart:hover,
 .chat-panel-close:hover {
   opacity: 1;
+}
+
+.chat-panel-restart:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .chat-panel-body {
@@ -96,11 +118,69 @@
   gap: 10px;
 }
 
-.chat-empty {
+.chat-pick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.chat-pick-card {
+  text-align: left;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 8px 12px 8px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-pick-card:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.chat-pick-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--blue-soft) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.chat-pick-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.chat-pick-thumb-svg {
+  width: 22px;
+  height: 28px;
+}
+
+.chat-pick-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.chat-pick-name {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--navy-deep);
+}
+
+.chat-pick-hall {
+  font-size: 11.5px;
   color: var(--text-muted);
-  font-size: 13px;
-  text-align: center;
-  margin-top: 20px;
 }
 
 .chat-bubble {
@@ -123,6 +203,10 @@
   background: var(--accent);
   color: #fff;
   border-bottom-right-radius: 4px;
+}
+
+.chat-bubble.typing {
+  opacity: 0.6;
 }
 
 .chat-suggested {
