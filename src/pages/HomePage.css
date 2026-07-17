@@ -1,9 +1,19 @@
 .hero-eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
   font-family: var(--font-serif);
-  font-size: 20px;
+  font-size: 34px;
   font-weight: 700;
   color: var(--navy-deep);
   margin: 0 0 4px;
+}
+
+.hero-eyebrow-hanja {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-muted);
 }
 
 .hero-subtitle {
@@ -29,25 +39,53 @@
 .home-split-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 36px 28px;
+  overflow: hidden;
   text-decoration: none;
   transition:
     border-color 0.15s ease,
-    transform 0.15s ease;
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .home-split-card:hover {
   border-color: var(--accent);
   transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(18, 32, 90, 0.1);
 }
 
-.home-split-icon {
-  margin-bottom: 16px;
+.home-split-card--course,
+.home-split-card--artifact {
+  background: #e2ecf7;
+}
+
+.home-split-visual {
+  position: relative;
+  height: 120px;
+  overflow: hidden;
+}
+
+.home-split-visual--icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #cfe0f2 0%, #e2ecf7 130%);
+}
+
+.home-split-icon-img {
+  width: 92px;
+  height: 92px;
+  object-fit: contain;
+}
+
+.home-split-body {
+  padding: 22px 26px 26px;
+}
+
+.home-split-body--center {
+  text-align: center;
 }
 
 .home-split-title {
@@ -61,28 +99,28 @@
 .home-split-desc {
   font-size: 13.5px;
   color: var(--text-muted);
-  margin: 0 0 22px;
+  margin: 0 0 20px;
   line-height: 1.5;
 }
 
 .home-split-cta {
-  display: inline-block;
+  display: block;
+  text-align: center;
   background: var(--navy-deep);
   color: #fff;
-  border-radius: 999px;
+  border-radius: 10px;
   padding: 12px 22px;
   font-size: 14px;
   font-weight: 600;
-  transition: background 0.15s ease;
-}
-
-.home-split-card:hover .home-split-cta {
-  background: var(--accent);
 }
 
 @media (max-width: 768px) {
   .hero-eyebrow {
-    font-size: 16px;
+    font-size: 24px;
+  }
+
+  .hero-eyebrow-hanja {
+    font-size: 14px;
   }
 
   .hero-subtitle {
@@ -94,7 +132,11 @@
     grid-template-columns: 1fr;
   }
 
-  .home-split-card {
-    padding: 26px 20px;
+  .home-split-visual {
+    height: 108px;
+  }
+
+  .home-split-body {
+    padding: 18px 20px 22px;
   }
 }
