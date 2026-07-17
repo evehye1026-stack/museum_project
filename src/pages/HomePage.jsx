@@ -11,7 +11,7 @@ function HomePage() {
   return (
     <section className="page">
       <div className="page-inner">
-        <p className="hero-eyebrow">처마</p>
+        <p className="hero-eyebrow">고담</p>
         <h2 className="hero-subtitle">전국 국립 박물관 코스</h2>
 
         <Link to="/for-you" className="preference-widget preference-teaser">
