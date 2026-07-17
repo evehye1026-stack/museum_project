@@ -1,3 +1,14 @@
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .hero-eyebrow {
   text-align: center;
   white-space: nowrap;
@@ -6,6 +17,7 @@
   font-weight: 700;
   color: var(--navy-deep);
   margin: 0 0 16px;
+  animation: fade-up 0.6s ease both;
 }
 
 .hero-intro-body {
@@ -17,6 +29,7 @@
   font-weight: 400;
   line-height: 1.75;
   color: var(--text-dark);
+  animation: fade-up 0.6s ease 0.1s both;
 }
 
 .home-split-row {
@@ -27,46 +40,46 @@
 }
 
 .home-split-card {
-  /* --card-bg-image: 실제 배경 이미지가 준비되면 이 값만 url(...)로 채우면 된다.
-     이미지가 없거나 로드에 실패해도 흰색 오버레이 + --card-fallback-bg만 보여
-     레이아웃이 깨지지 않는다. */
-  --card-bg-image: none;
-  --card-fallback-bg: #eef1f6;
-
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   min-height: 260px;
-  background-color: var(--card-fallback-bg);
-  background-image: linear-gradient(rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.82)),
-    var(--card-bg-image);
-  background-size: cover;
-  background-position: center;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
   border: 1px solid var(--border);
   border-radius: 20px;
   overflow: hidden;
   text-decoration: none;
+  animation: fade-up 0.6s ease both;
+  animation-delay: 0.2s;
   transition:
-    border-color 0.15s ease,
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+    border-color 0.2s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.home-split-row .home-split-card:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.home-split-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 45%);
+  opacity: 0.7;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
 }
 
 .home-split-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(18, 32, 90, 0.1);
+  border-color: #d9b36c;
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 36px rgba(18, 32, 90, 0.22);
 }
 
-/* 한지/전통 문양 텍스처 배경(은은하게). 이미지가 준비되면 이 경로에 파일만 추가하면 된다. */
-.home-split-card--course {
-  --card-bg-image: url('/images/course-hanji-texture.jpg');
-}
-
-/* 유물(도자기) 이미지 배경. 이미지가 준비되면 이 경로에 파일만 추가하면 된다. */
-.home-split-card--artifact {
-  --card-bg-image: url('/images/artifact-pottery.jpg');
+.home-split-card:hover::before {
+  opacity: 1;
 }
 
 .home-split-body {
@@ -78,13 +91,13 @@
   font-family: var(--font-serif);
   font-size: 20px;
   font-weight: 700;
-  color: var(--navy-deep);
+  color: #fff;
   margin: 0 0 8px;
 }
 
 .home-split-desc {
   font-size: 13.5px;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.75);
   margin: 0 0 20px;
   line-height: 1.5;
 }
@@ -92,12 +105,30 @@
 .home-split-cta {
   display: block;
   text-align: center;
-  background: var(--navy-deep);
-  color: #fff;
+  background: #fff;
+  color: var(--navy-deep);
   border-radius: 10px;
   padding: 12px 22px;
   font-size: 14px;
   font-weight: 600;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    letter-spacing 0.2s ease;
+}
+
+.home-split-card:hover .home-split-cta {
+  background: #d9b36c;
+  color: var(--navy-deep);
+  letter-spacing: 0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-eyebrow,
+  .hero-intro-body,
+  .home-split-card {
+    animation: none;
+  }
 }
 
 @media (max-width: 768px) {
