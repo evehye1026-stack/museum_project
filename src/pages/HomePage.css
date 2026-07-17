@@ -19,6 +19,67 @@
   font-size: 14px;
 }
 
+.home-split-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.home-split-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 28px;
+  text-decoration: none;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.home-split-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.home-split-icon {
+  margin-bottom: 16px;
+}
+
+.home-split-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy-deep);
+  margin: 0 0 8px;
+}
+
+.home-split-desc {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin: 0 0 22px;
+  line-height: 1.5;
+}
+
+.home-split-cta {
+  display: inline-block;
+  background: var(--navy-deep);
+  color: #fff;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.home-split-card:hover .home-split-cta {
+  background: var(--accent);
+}
+
 @media (max-width: 768px) {
   .hero-eyebrow {
     font-size: 16px;
@@ -27,5 +88,13 @@
   .hero-subtitle {
     font-size: 18px;
     margin-bottom: 18px;
+  }
+
+  .home-split-row {
+    grid-template-columns: 1fr;
+  }
+
+  .home-split-card {
+    padding: 26px 20px;
   }
 }

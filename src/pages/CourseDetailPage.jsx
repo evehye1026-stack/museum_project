@@ -58,7 +58,9 @@ function CourseDetailPage() {
                 <ul className="course-step-artifacts">
                   {step.artifactNames.map((name, i) => (
                     <li key={`${step.order}-${i}-${name}`}>
-                      <Link to={`/artifacts/${slugify(name)}`}>{name}</Link>
+                      <Link to={`/artifacts/${slugify(`${course.museum} ${name}`)}`}>
+                        {name}
+                      </Link>
                     </li>
                   ))}
                 </ul>

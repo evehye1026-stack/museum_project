@@ -3,6 +3,7 @@ import CourseCard from '../components/CourseCard'
 import { useMuseumData } from '../hooks/useMuseumData'
 import '../styles/layout.css'
 import './ArtifactsPage.css'
+import './CoursesPage.css'
 
 function CoursesPage() {
   const { loading, courses, museums } = useMuseumData()
@@ -22,17 +23,20 @@ function CoursesPage() {
           자세한 관람 순서를 확인해보세요.
         </p>
 
-        <div className="hall-chip-row" style={{ marginBottom: 24 }}>
-          {['전체', ...museums].map((m) => (
+        <div className="hall-chip-row course-chip-row" style={{ marginBottom: 24 }}>
+          {['전체', ...museums].flatMap((m) => [
+            ...(m === '국립대구박물관'
+              ? [<span key="break" className="course-chip-break" aria-hidden="true" />]
+              : []),
             <button
               key={m}
               type="button"
-              className={`hall-chip${museum === m ? ' active' : ''}`}
+              className={`hall-chip course-chip${museum === m ? ' active' : ''}`}
               onClick={() => setMuseum(m)}
             >
               {m}
-            </button>
-          ))}
+            </button>,
+          ])}
         </div>
 
         {loading ? (
