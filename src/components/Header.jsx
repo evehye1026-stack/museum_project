@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom'
-import Logo from './Logo'
 import './Header.css'
 
 const NAV_ITEMS = [
@@ -109,9 +108,9 @@ function Header() {
     <>
       <header className="header">
         <div className="header-inner">
-          <NavLink to="/" className="logo" aria-label="처마 홈으로 이동">
-            <Logo />
-            <span className="logo-text">처마</span>
+          <NavLink to="/" className="logo" aria-label="고담 홈으로 이동">
+            <span className="logo-text">고담</span>
+            <span className="logo-hanja">古談</span>
           </NavLink>
 
           <nav className="nav-menu">
