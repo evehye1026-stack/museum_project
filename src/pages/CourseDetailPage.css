@@ -9,6 +9,37 @@
   color: var(--accent);
 }
 
+.course-progress {
+  margin: 8px 0 20px;
+}
+
+.course-progress-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.course-progress-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.course-progress-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.course-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.2s ease;
+}
+
 .course-steps-detail {
   display: flex;
   flex-direction: column;
@@ -22,6 +53,17 @@
   border-radius: 16px;
   padding: 20px 22px;
   border: 1px solid var(--border);
+  transition:
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.course-step-block.done {
+  border-color: var(--accent);
+}
+
+.course-step-block.done .course-step-badge {
+  opacity: 0.55;
 }
 
 .course-step-badge {
@@ -37,17 +79,44 @@
   font-weight: 700;
 }
 
+.course-step-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 4px;
+}
+
 .course-step-content h4 {
   font-size: 16px;
   font-weight: 700;
-  color: var(--navy-deep);
-  margin: 0 0 4px;
+  color: var(--heading);
+  margin: 0;
 }
 
 .course-step-content h4 span {
   font-size: 13px;
   font-weight: 500;
   color: var(--text-muted);
+}
+
+.course-step-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.course-step-check input {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
 
 .course-step-rooms {
@@ -71,11 +140,17 @@
   border-radius: 999px;
   padding: 6px 12px;
   font-size: 12.5px;
-  color: var(--blue-mid);
+  color: var(--meta-accent);
   font-weight: 500;
 }
 
 .course-step-artifacts li a:hover {
   background: var(--accent);
   color: #fff;
+}
+
+@media (max-width: 480px) {
+  .course-step-heading {
+    flex-wrap: wrap;
+  }
 }

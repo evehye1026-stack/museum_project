@@ -7,11 +7,43 @@
 }
 
 .header-top {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 18px 24px 10px;
   display: flex;
   justify-content: center;
+}
+
+.header-icons {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-favorite,
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a6acc2;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.header-favorite:hover,
+.theme-toggle:hover {
+  color: var(--accent);
+}
+
+.header-favorite.active {
+  color: #ff4d6d;
 }
 
 .logo {
@@ -24,7 +56,7 @@
   font-family: var(--font-serif);
   font-weight: 700;
   font-size: 28px;
-  color: var(--navy-deep);
+  color: var(--heading);
 }
 
 .logo-hanja {
@@ -58,6 +90,10 @@
 @media (max-width: 768px) {
   .header-top {
     padding: 14px 18px 8px;
+  }
+
+  .header-icons {
+    right: 18px;
   }
 
   .nav-menu {

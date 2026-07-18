@@ -1,6 +1,11 @@
+import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ArtifactVisual from '../components/ArtifactVisual'
+import FavoriteButton from '../components/FavoriteButton'
+import ShareButton from '../components/ShareButton'
+import { DetailSkeleton } from '../components/Skeleton'
 import { useChatbot } from '../context/ChatbotContext'
+import { useRecentlyViewed } from '../context/RecentlyViewedContext'
 import { ARTIFACT_PHOTOS } from '../data/artifactPhotos'
 import { useEmuseumRelic } from '../hooks/useEmuseumRelic'
 import { useMuseumData } from '../hooks/useMuseumData'
@@ -12,15 +17,20 @@ function ArtifactDetailPage() {
   const { artifactId } = useParams()
   const { loading, artifacts, courses } = useMuseumData()
   const { openChat } = useChatbot()
+  const { recordView } = useRecentlyViewed()
 
   const artifact = artifacts.find((a) => a.id === artifactId)
   const { status: emuseumStatus, detail: emuseumDetail } = useEmuseumRelic(artifact?.name)
+
+  useEffect(() => {
+    if (artifact) recordView(artifact.id)
+  }, [artifact, recordView])
 
   if (loading) {
     return (
       <section className="page">
         <div className="page-inner">
-          <p style={{ color: 'var(--text-muted)' }}>유물 정보를 불러오는 중...</p>
+          <DetailSkeleton />
         </div>
       </section>
     )
@@ -59,7 +69,14 @@ function ArtifactDetailPage() {
             <p className="artifact-detail-hall">
               {artifact.museum} · {artifact.hall} · {artifact.room}
             </p>
-            <h1 className="artifact-detail-name">{artifact.name}</h1>
+            <div className="artifact-detail-title-row">
+              <h1 className="artifact-detail-name">{artifact.name}</h1>
+              <FavoriteButton type="artifact" id={artifact.id} />
+              <ShareButton
+                title={artifact.name}
+                text={`${artifact.museum} · ${artifact.hall}`}
+              />
+            </div>
             <p className="artifact-detail-case">진열장 번호: {artifact.caseNo}</p>
 
             {emuseumStatus === 'loading' && (

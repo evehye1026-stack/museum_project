@@ -29,12 +29,19 @@
   margin: 0 0 8px;
 }
 
+.artifact-detail-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 10px;
+}
+
 .artifact-detail-name {
   font-family: var(--font-serif);
   font-size: 28px;
   font-weight: 700;
-  color: var(--navy-deep);
-  margin: 0 0 10px;
+  color: var(--heading);
+  margin: 0;
 }
 
 .artifact-detail-case {
@@ -98,7 +105,7 @@
 }
 
 .related-course-list a {
-  color: var(--blue-mid);
+  color: var(--meta-accent);
   font-weight: 500;
   font-size: 14px;
 }

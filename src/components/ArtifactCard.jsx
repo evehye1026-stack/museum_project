@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import ArtifactVisual from './ArtifactVisual'
+import FavoriteButton from './FavoriteButton'
 import { ARTIFACT_PHOTOS } from '../data/artifactPhotos'
 import { isChatEnabled } from '../lib/personaBuilder'
 import { useArtifactThumb } from '../hooks/useArtifactThumb'
@@ -13,6 +14,7 @@ function ArtifactCard({ artifact }) {
   return (
     <Link to={`/artifacts/${artifact.id}`} className="artifact-card">
       <div className="artifact-thumb" ref={ref}>
+        <FavoriteButton type="artifact" id={artifact.id} variant="overlay-left" />
         {isChatEnabled(artifact) && (
           <span className="artifact-chat-badge">💬 대화 가능</span>
         )}

@@ -1,4 +1,6 @@
 import ArtifactVisual from './ArtifactVisual'
+import FavoriteButton from './FavoriteButton'
+import ShareButton from './ShareButton'
 import StepTimeline from './StepTimeline'
 import { ARTIFACT_PHOTOS } from '../data/artifactPhotos'
 import { MUSEUM_PHOTOS } from '../data/museumPhotos'
@@ -25,6 +27,14 @@ function CourseFeature({ course }) {
       >
         <div className="course-card-bg" />
         {photo && <div className="course-card-darken" />}
+        <div className="course-card-actions">
+          <ShareButton
+            title={course.name}
+            text={`${course.museum} · 유물 ${course.artifactCount}점`}
+            variant="overlay"
+          />
+          <FavoriteButton type="course" id={course.id} variant="overlay-inline" />
+        </div>
         <p className="course-card-museum">{course.museum}</p>
         <h3 className="course-card-title">{course.name}</h3>
         {highlightPhoto ? (
