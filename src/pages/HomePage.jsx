@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import ArtifactCard from '../components/ArtifactCard'
 import IntroSplash from '../components/IntroSplash'
+import { useRecentlyViewed } from '../context/RecentlyViewedContext'
+import { useMuseumData } from '../hooks/useMuseumData'
 import '../styles/layout.css'
 import './HomePage.css'
 
@@ -12,11 +15,18 @@ function shouldShowIntro() {
 
 function HomePage() {
   const [showIntro, setShowIntro] = useState(shouldShowIntro)
+  const { recentIds } = useRecentlyViewed()
+  const { artifacts } = useMuseumData()
 
   function dismissIntro() {
     sessionStorage.setItem(INTRO_SEEN_KEY, '1')
     setShowIntro(false)
   }
+
+  const recentArtifacts = recentIds
+    .map((id) => artifacts.find((a) => a.id === id))
+    .filter(Boolean)
+    .slice(0, 6)
 
   return (
     <section className="page">
@@ -54,6 +64,19 @@ function HomePage() {
             </div>
           </Link>
         </div>
+
+        {recentArtifacts.length > 0 && (
+          <div className="home-recent-section">
+            <h3 className="section-title" style={{ fontSize: 18 }}>
+              최근 본 유물
+            </h3>
+            <div className="card-grid">
+              {recentArtifacts.map((artifact) => (
+                <ArtifactCard key={artifact.id} artifact={artifact} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   )

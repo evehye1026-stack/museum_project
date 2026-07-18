@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import ArtifactCard from '../components/ArtifactCard'
+import { CardSkeletonGrid } from '../components/Skeleton'
 import { useMuseumData } from '../hooks/useMuseumData'
 import '../styles/layout.css'
 import './ArtifactsPage.css'
@@ -9,12 +10,34 @@ function ArtifactsPage() {
   const { loading, artifacts, museums } = useMuseumData()
   const [query, setQuery] = useState('')
   const [museum, setMuseum] = useState('전체')
+  const [room, setRoom] = useState('전체')
+  const [sort, setSort] = useState('name')
 
-  const filtered = artifacts.filter((a) => {
-    const matchesQuery = a.name.toLowerCase().includes(query.toLowerCase())
-    const matchesMuseum = museum === '전체' || a.museum === museum
-    return matchesQuery && matchesMuseum
-  })
+  const rooms = useMemo(() => {
+    const pool = museum === '전체' ? artifacts : artifacts.filter((a) => a.museum === museum)
+    return [...new Set(pool.map((a) => a.room).filter(Boolean))].sort((a, b) =>
+      a.localeCompare(b, 'ko'),
+    )
+  }, [artifacts, museum])
+
+  useEffect(() => {
+    if (room !== '전체' && !rooms.includes(room)) setRoom('전체')
+  }, [rooms, room])
+
+  const filtered = artifacts
+    .filter((a) => {
+      const matchesQuery = a.name.toLowerCase().includes(query.toLowerCase())
+      const matchesMuseum = museum === '전체' || a.museum === museum
+      const matchesRoom = room === '전체' || a.room === room
+      return matchesQuery && matchesMuseum && matchesRoom
+    })
+    .sort((a, b) =>
+      sort === 'museum'
+        ? a.museum.localeCompare(b.museum, 'ko') ||
+          a.hall.localeCompare(b.hall, 'ko') ||
+          a.name.localeCompare(b.name, 'ko')
+        : a.name.localeCompare(b.name, 'ko'),
+    )
 
   return (
     <section className="page">
@@ -50,10 +73,34 @@ function ArtifactsPage() {
               </button>,
             ])}
           </div>
+          <div className="artifact-secondary-filters">
+            <select
+              value={room}
+              onChange={(e) => setRoom(e.target.value)}
+              className="artifact-select"
+              aria-label="전시실 필터"
+            >
+              <option value="전체">전시실 전체</option>
+              {rooms.map((r) => (
+                <option key={r} value={r}>
+                  {r}
+                </option>
+              ))}
+            </select>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              className="artifact-select"
+              aria-label="정렬 기준"
+            >
+              <option value="name">이름순</option>
+              <option value="museum">전시관순</option>
+            </select>
+          </div>
         </div>
 
         {loading ? (
-          <p style={{ color: 'var(--text-muted)' }}>유물 정보를 불러오는 중...</p>
+          <CardSkeletonGrid count={9} />
         ) : filtered.length === 0 ? (
           <p style={{ color: 'var(--text-muted)' }}>검색 결과가 없어요.</p>
         ) : (

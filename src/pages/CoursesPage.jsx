@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import CourseCard from '../components/CourseCard'
+import { CardSkeletonGrid } from '../components/Skeleton'
 import { useMuseumData } from '../hooks/useMuseumData'
 import '../styles/layout.css'
 import './ArtifactsPage.css'
@@ -40,7 +41,7 @@ function CoursesPage() {
         </div>
 
         {loading ? (
-          <p style={{ color: 'var(--text-muted)' }}>코스 정보를 불러오는 중...</p>
+          <CardSkeletonGrid count={6} />
         ) : filtered.length === 0 ? (
           <p style={{ color: 'var(--text-muted)' }}>해당 박물관의 코스가 없어요.</p>
         ) : (

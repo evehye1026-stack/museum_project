@@ -1,0 +1,67 @@
+.favorite-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: #a6acc2;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.06);
+}
+
+.favorite-btn.active {
+  color: #ff4d6d;
+  border-color: rgba(255, 77, 109, 0.35);
+}
+
+.favorite-btn-overlay-left,
+.favorite-btn-overlay-right {
+  position: absolute;
+  top: 10px;
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.favorite-btn-overlay-left {
+  left: 10px;
+}
+
+.favorite-btn-overlay-right {
+  right: 10px;
+}
+
+.favorite-btn-overlay-left.active,
+.favorite-btn-overlay-right.active {
+  background: rgba(255, 255, 255, 0.92);
+  color: #ff4d6d;
+  border-color: transparent;
+}
+
+.favorite-btn-overlay-inline {
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.favorite-btn-overlay-inline.active {
+  background: rgba(255, 255, 255, 0.92);
+  color: #ff4d6d;
+  border-color: transparent;
+}

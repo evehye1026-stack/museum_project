@@ -1,5 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import CourseFeature from '../components/CourseFeature'
+import { DetailSkeleton } from '../components/Skeleton'
+import { useProgress } from '../context/ProgressContext'
 import { useMuseumData, slugify } from '../hooks/useMuseumData'
 import '../styles/layout.css'
 import './CourseDetailPage.css'
@@ -7,12 +9,13 @@ import './CourseDetailPage.css'
 function CourseDetailPage() {
   const { courseId } = useParams()
   const { loading, courses } = useMuseumData()
+  const { isStepDone, toggleStep, getDoneCount } = useProgress()
 
   if (loading) {
     return (
       <section className="page">
         <div className="page-inner">
-          <p style={{ color: 'var(--text-muted)' }}>코스 정보를 불러오는 중...</p>
+          <DetailSkeleton />
         </div>
       </section>
     )
@@ -31,6 +34,10 @@ function CourseDetailPage() {
     )
   }
 
+  const doneCount = getDoneCount(course.id)
+  const totalSteps = course.steps.length
+  const percent = totalSteps ? Math.round((doneCount / totalSteps) * 100) : 0
+
   return (
     <section className="page">
       <div className="page-inner">
@@ -40,33 +47,59 @@ function CourseDetailPage() {
 
         <CourseFeature course={course} />
 
-        <h3 className="section-title">관람 순서</h3>
+        <div className="course-progress">
+          <div className="course-progress-header">
+            <h3 className="section-title" style={{ margin: 0 }}>
+              관람 순서
+            </h3>
+            <span className="course-progress-count">
+              {doneCount}/{totalSteps} 완료
+            </span>
+          </div>
+          <div className="course-progress-bar">
+            <div className="course-progress-fill" style={{ width: `${percent}%` }} />
+          </div>
+        </div>
+
         <div className="course-steps-detail">
-          {course.steps.map((step) => (
-            <div className="course-step-block" key={step.order}>
-              <div
-                className="course-step-badge"
-                style={{ background: step.color }}
-              >
-                {step.order}
+          {course.steps.map((step) => {
+            const done = isStepDone(course.id, step.order)
+            return (
+              <div className={`course-step-block${done ? ' done' : ''}`} key={step.order}>
+                <div
+                  className="course-step-badge"
+                  style={{ background: step.color }}
+                >
+                  {step.order}
+                </div>
+                <div className="course-step-content">
+                  <div className="course-step-heading">
+                    <h4>
+                      {step.hall} <span>· {step.time}분</span>
+                    </h4>
+                    <label className="course-step-check">
+                      <input
+                        type="checkbox"
+                        checked={done}
+                        onChange={() => toggleStep(course.id, step.order)}
+                      />
+                      관람 완료
+                    </label>
+                  </div>
+                  <p className="course-step-rooms">{step.rooms.join(', ')}</p>
+                  <ul className="course-step-artifacts">
+                    {step.artifactNames.map((name, i) => (
+                      <li key={`${step.order}-${i}-${name}`}>
+                        <Link to={`/artifacts/${slugify(`${course.museum} ${name}`)}`}>
+                          {name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div className="course-step-content">
-                <h4>
-                  {step.hall} <span>· {step.time}분</span>
-                </h4>
-                <p className="course-step-rooms">{step.rooms.join(', ')}</p>
-                <ul className="course-step-artifacts">
-                  {step.artifactNames.map((name, i) => (
-                    <li key={`${step.order}-${i}-${name}`}>
-                      <Link to={`/artifacts/${slugify(`${course.museum} ${name}`)}`}>
-                        {name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

@@ -14,7 +14,7 @@
   font-family: var(--font-serif);
   font-size: 28px;
   font-weight: 700;
-  color: var(--navy-deep);
+  color: var(--heading);
   margin: 0 0 8px;
 }
 
@@ -57,7 +57,7 @@
   font-family: var(--font-serif);
   font-size: 20px;
   font-weight: 700;
-  color: var(--navy-deep);
+  color: var(--heading);
   margin: 0 0 22px;
 }
 
@@ -83,7 +83,7 @@
 }
 
 .quiz-option:hover {
-  background: #fff;
+  background: var(--surface);
   border-color: var(--accent);
 }
 
@@ -105,7 +105,7 @@
   font-family: var(--font-serif);
   font-size: 30px;
   font-weight: 700;
-  color: var(--navy-deep);
+  color: var(--heading);
   margin: 0 0 6px;
 }
 

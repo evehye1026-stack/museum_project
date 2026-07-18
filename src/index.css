@@ -12,10 +12,27 @@
   --text-muted: #6b7280;
   --border: #e3e6ef;
 
+  /* 제목/강조 텍스트, 보조 링크 색 — navy-deep/blue-mid는 카드 배경(navy 그라데이션)에도
+     쓰여 다크모드에서 값을 바꿀 수 없으므로, 텍스트 전용으로 테마에 따라 바뀌는 별도 변수를 둔다. */
+  --heading: var(--navy-deep);
+  --meta-accent: var(--blue-mid);
+
   --font-serif: 'Noto Serif KR', serif;
   --font-sans: 'Noto Sans KR', sans-serif;
 
   color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --bg: #0e1320;
+  --surface: #171d2e;
+  --text-dark: #edf0f7;
+  --text-muted: #97a1bd;
+  --border: #2a3350;
+  --heading: #dfe4f7;
+  --meta-accent: #9fb0e0;
+
+  color-scheme: dark;
 }
 
 * {
