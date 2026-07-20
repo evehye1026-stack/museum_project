@@ -68,7 +68,7 @@ export function ProgressProvider({ children }) {
   )
 
   return (
-    <ProgressContext.Provider value={{ isStepDone, toggleStep, getDoneCount }}>
+    <ProgressContext.Provider value={{ progress, isStepDone, toggleStep, getDoneCount }}>
       {children}
     </ProgressContext.Provider>
   )

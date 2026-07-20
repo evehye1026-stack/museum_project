@@ -1,5 +1,7 @@
-import { NavLink } from 'react-router-dom'
-import { useTheme } from '../context/ThemeContext'
+import { useEffect, useRef, useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useProgress } from '../context/ProgressContext'
+import { useMuseumData } from '../hooks/useMuseumData'
 import './Header.css'
 
 const NAV_ITEMS = [
@@ -10,36 +12,14 @@ const NAV_ITEMS = [
 ]
 
 const FAVORITE_ICON = (
-  <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M12 20.5s-7.5-4.6-10-9.3C.6 8 1.8 4.4 5 3.3c2.2-.7 4.3.2 5.5 2 .4.6.8 1.2 1.5 1.2s1.1-.6 1.5-1.2c1.2-1.8 3.3-2.7 5.5-2 3.2 1.1 4.4 4.7 3 7.9-2.5 4.7-10 9.3-10 9.3z"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinejoin="round"
-    />
+  <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 20.5s-7.5-4.6-10-9.3C.6 8 1.8 4.4 5 3.3c2.2-.7 4.3.2 5.5 2 .4.6.8 1.2 1.5 1.2s1.1-.6 1.5-1.2c1.2-1.8 3.3-2.7 5.5-2 3.2 1.1 4.4 4.7 3 7.9-2.5 4.7-10 9.3-10 9.3z" />
   </svg>
 )
 
-const MOON_ICON = (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <path
-      d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
-
-const SUN_ICON = (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="12" r="4.5" stroke="currentColor" strokeWidth="1.6" />
-    <path
-      d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-    />
+const CONTINUE_ICON = (
+  <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5v14l11-7-11-7z" />
   </svg>
 )
 
@@ -140,7 +120,39 @@ const TAB_ITEMS = [
 ]
 
 function Header() {
-  const { theme, toggleTheme } = useTheme()
+  const { progress } = useProgress()
+  const { courses } = useMuseumData()
+  const navigate = useNavigate()
+  const [continueOpen, setContinueOpen] = useState(false)
+  const continueRef = useRef(null)
+
+  const continueCourses = Object.entries(progress)
+    .map(([courseId, doneSteps]) => {
+      const course = courses.find((c) => c.id === courseId)
+      return course && doneSteps.length > 0 && doneSteps.length < course.steps.length
+        ? { course, done: doneSteps.length, total: course.steps.length }
+        : null
+    })
+    .filter(Boolean)
+
+  useEffect(() => {
+    if (!continueOpen) return
+    function handleClickOutside(e) {
+      if (continueRef.current && !continueRef.current.contains(e.target)) {
+        setContinueOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [continueOpen])
+
+  function handleContinueClick() {
+    if (continueCourses.length === 1) {
+      navigate(`/courses/${continueCourses[0].course.id}`)
+    } else {
+      setContinueOpen((open) => !open)
+    }
+  }
 
   return (
     <>
@@ -151,14 +163,36 @@ function Header() {
             <span className="logo-hanja">古談</span>
           </NavLink>
           <div className="header-icons">
-            <button
-              type="button"
-              className="theme-toggle"
-              onClick={toggleTheme}
-              aria-label={theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환'}
-            >
-              {theme === 'dark' ? SUN_ICON : MOON_ICON}
-            </button>
+            {continueCourses.length > 0 && (
+              <div className="header-continue-wrap" ref={continueRef}>
+                <button
+                  type="button"
+                  className="header-continue"
+                  aria-label="코스 이어보기"
+                  title="코스 이어보기"
+                  onClick={handleContinueClick}
+                >
+                  {CONTINUE_ICON}
+                </button>
+                {continueOpen && continueCourses.length > 1 && (
+                  <div className="header-continue-menu">
+                    {continueCourses.map(({ course, done, total }) => (
+                      <NavLink
+                        key={course.id}
+                        to={`/courses/${course.id}`}
+                        className="header-continue-menu-item"
+                        onClick={() => setContinueOpen(false)}
+                      >
+                        <span className="header-continue-menu-name">{course.name}</span>
+                        <span className="header-continue-menu-count">
+                          {done}/{total}
+                        </span>
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             <NavLink
               to="/favorites"
               className={({ isActive }) => `header-favorite${isActive ? ' active' : ''}`}
@@ -169,18 +203,20 @@ function Header() {
           </div>
         </div>
 
-        <nav className="nav-menu">
-          {NAV_ITEMS.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.end}
-              className={({ isActive }) => (isActive ? 'active' : '')}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
+        <div className="nav-menu-band">
+          <nav className="nav-menu">
+            {NAV_ITEMS.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                className={({ isActive }) => (isActive ? 'active' : '')}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+        </div>
       </header>
 
       <nav className="mobile-tabbar">

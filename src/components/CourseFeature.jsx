@@ -50,7 +50,6 @@ function CourseFeature({ course }) {
           {course.colors.map((c) => (
             <li key={c}>
               <span className="color-dot" style={{ background: c }} />
-              {c}
             </li>
           ))}
         </ul>

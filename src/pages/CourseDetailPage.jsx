@@ -1,3 +1,4 @@
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import CourseFeature from '../components/CourseFeature'
 import { DetailSkeleton } from '../components/Skeleton'
@@ -6,10 +7,27 @@ import { useMuseumData, slugify } from '../hooks/useMuseumData'
 import '../styles/layout.css'
 import './CourseDetailPage.css'
 
+// module-scoped so scroll position survives leaving and returning to a course
+// (e.g. clicking an artifact, then coming back) without persisting across a reload
+const scrollMemory = new Map()
+
 function CourseDetailPage() {
   const { courseId } = useParams()
   const { loading, courses } = useMuseumData()
   const { isStepDone, toggleStep, getDoneCount } = useProgress()
+  const restoredFor = useRef(null)
+
+  useEffect(() => {
+    const handleScroll = () => scrollMemory.set(courseId, window.scrollY)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [courseId])
+
+  useLayoutEffect(() => {
+    if (loading || restoredFor.current === courseId) return
+    restoredFor.current = courseId
+    window.scrollTo(0, scrollMemory.get(courseId) ?? 0)
+  }, [loading, courseId])
 
   if (loading) {
     return (
@@ -90,7 +108,10 @@ function CourseDetailPage() {
                   <ul className="course-step-artifacts">
                     {step.artifactNames.map((name, i) => (
                       <li key={`${step.order}-${i}-${name}`}>
-                        <Link to={`/artifacts/${slugify(`${course.museum} ${name}`)}`}>
+                        <Link
+                          to={`/artifacts/${slugify(`${course.museum} ${name}`)}`}
+                          state={{ from: 'course', courseId: course.id, courseName: course.name }}
+                        >
                           {name}
                         </Link>
                       </li>
