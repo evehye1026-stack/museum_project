@@ -311,14 +311,19 @@
 }
 
 @media (max-width: 768px) {
+  /* 상단 헤더 영역에 두면 페이지 제목·설명 문구와 겹치므로,
+     모바일에서는 하단 탭바 위쪽으로 옮겨 겹치지 않게 한다. */
   .chat-fab {
     right: 16px;
-    top: 96px;
+    top: auto;
+    bottom: 84px;
   }
 
   .chat-fab-tooltip {
     right: 84px;
-    top: 124px;
+    top: auto;
+    bottom: 84px;
+    transform: none;
     max-width: 150px;
     font-size: 12px;
   }

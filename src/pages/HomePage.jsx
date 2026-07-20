@@ -36,11 +36,13 @@ function HomePage() {
         <p className="hero-intro-body">
           전국 국립박물관 방방곡곡에는 저마다의 시간과 사연을 품은 유물들이 잠들어 있습니다.
           <br />
-          고담은 그 오래된 이야기들을 꺼내어 당신만의 관람 코스로 엮어드려요.
+          고담은 그 오래된 이야기들을 꺼내어 당신만의 관람 코스로
+          <br className="mobile-break" /> 엮어드려요.
           <br />
           몇 가지 질문에 답하여 취향에 꼭 맞는 산책 코스를 추천받고,
           <br />
-          유물 하나하나가 들려주는 옛이야기에 조용히 귀 기울여보세요.
+          유물 하나하나가 들려주는 옛이야기에
+          <br className="mobile-break" /> 조용히 귀 기울여보세요.
         </p>
 
         <div className="home-split-row">

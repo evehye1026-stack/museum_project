@@ -1,28 +1,45 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import { supabase } from '../lib/supabaseClient'
+import { getDeviceId } from '../utils/deviceId'
 
-const STORAGE_KEY = 'godam-recently-viewed'
 const MAX_ITEMS = 12
 const RecentlyViewedContext = createContext(null)
 
-function loadInitial() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    const parsed = raw ? JSON.parse(raw) : []
-    return Array.isArray(parsed) ? parsed : []
-  } catch {
-    return []
-  }
-}
-
 export function RecentlyViewedProvider({ children }) {
-  const [recentIds, setRecentIds] = useState(loadInitial)
+  const [recentIds, setRecentIds] = useState([])
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(recentIds))
-  }, [recentIds])
+    let active = true
+
+    supabase
+      .from('recently_viewed')
+      .select('item_id')
+      .eq('device_id', getDeviceId())
+      .order('viewed_at', { ascending: false })
+      .limit(MAX_ITEMS)
+      .then(({ data, error }) => {
+        if (!active || error) {
+          if (error) console.error('최근 본 항목을 불러오지 못했습니다', error)
+          return
+        }
+        setRecentIds(data.map((row) => row.item_id))
+      })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   const recordView = useCallback((id) => {
     setRecentIds((prev) => [id, ...prev.filter((x) => x !== id)].slice(0, MAX_ITEMS))
+
+    supabase
+      .from('recently_viewed')
+      .upsert(
+        { device_id: getDeviceId(), item_id: id, viewed_at: new Date().toISOString() },
+        { onConflict: 'device_id,item_id' },
+      )
+      .then(({ error }) => error && console.error('최근 본 항목 동기화 실패', error))
   }, [])
 
   return (
