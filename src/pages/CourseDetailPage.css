@@ -87,6 +87,11 @@
   margin: 0 0 4px;
 }
 
+.course-step-content {
+  flex: 1;
+  min-width: 0;
+}
+
 .course-step-content h4 {
   font-size: 16px;
   font-weight: 700;

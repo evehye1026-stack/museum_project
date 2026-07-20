@@ -23,18 +23,6 @@
   color-scheme: light;
 }
 
-:root[data-theme='dark'] {
-  --bg: #0e1320;
-  --surface: #171d2e;
-  --text-dark: #edf0f7;
-  --text-muted: #97a1bd;
-  --border: #2a3350;
-  --heading: #dfe4f7;
-  --meta-accent: #9fb0e0;
-
-  color-scheme: dark;
-}
-
 * {
   box-sizing: border-box;
 }

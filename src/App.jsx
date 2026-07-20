@@ -5,7 +5,6 @@ import { ChatbotProvider } from './context/ChatbotContext'
 import { FavoritesProvider } from './context/FavoritesContext'
 import { ProgressProvider } from './context/ProgressContext'
 import { RecentlyViewedProvider } from './context/RecentlyViewedContext'
-import { ThemeProvider } from './context/ThemeContext'
 import ArtifactDetailPage from './pages/ArtifactDetailPage'
 import ArtifactsPage from './pages/ArtifactsPage'
 import CourseDetailPage from './pages/CourseDetailPage'
@@ -19,29 +18,27 @@ function App() {
   const showChat = location.pathname.startsWith('/artifacts')
 
   return (
-    <ThemeProvider>
-      <FavoritesProvider>
-        <ProgressProvider>
-          <RecentlyViewedProvider>
-            <ChatbotProvider>
-              <Header />
+    <FavoritesProvider>
+      <ProgressProvider>
+        <RecentlyViewedProvider>
+          <ChatbotProvider>
+            <Header />
 
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/courses" element={<CoursesPage />} />
-                <Route path="/courses/:courseId" element={<CourseDetailPage />} />
-                <Route path="/for-you" element={<ForYouPage />} />
-                <Route path="/artifacts" element={<ArtifactsPage />} />
-                <Route path="/artifacts/:artifactId" element={<ArtifactDetailPage />} />
-                <Route path="/favorites" element={<FavoritesPage />} />
-              </Routes>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/courses" element={<CoursesPage />} />
+              <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+              <Route path="/for-you" element={<ForYouPage />} />
+              <Route path="/artifacts" element={<ArtifactsPage />} />
+              <Route path="/artifacts/:artifactId" element={<ArtifactDetailPage />} />
+              <Route path="/favorites" element={<FavoritesPage />} />
+            </Routes>
 
-              {showChat && <ChatPanel />}
-            </ChatbotProvider>
-          </RecentlyViewedProvider>
-        </ProgressProvider>
-      </FavoritesProvider>
-    </ThemeProvider>
+            {showChat && <ChatPanel />}
+          </ChatbotProvider>
+        </RecentlyViewedProvider>
+      </ProgressProvider>
+    </FavoritesProvider>
   )
 }
 

@@ -3,7 +3,6 @@
   top: 0;
   z-index: 100;
   background: var(--surface);
-  border-bottom: 1px solid var(--border);
 }
 
 .header-top {
@@ -25,25 +24,89 @@
   gap: 14px;
 }
 
-.header-favorite,
-.theme-toggle {
+.header-favorite {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a6acc2;
+  color: #d9b36c;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
 }
 
-.header-favorite:hover,
-.theme-toggle:hover {
-  color: var(--accent);
+.header-favorite:hover {
+  color: #c49a4f;
 }
 
 .header-favorite.active {
   color: #ff4d6d;
+}
+
+.header-continue-wrap {
+  position: relative;
+  display: flex;
+}
+
+.header-continue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d9b36c;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.header-continue:hover {
+  color: #c49a4f;
+}
+
+.header-continue-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 220px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(18, 32, 90, 0.16);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 110;
+}
+
+.header-continue-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-dark);
+}
+
+.header-continue-menu-item:hover {
+  background: var(--bg);
+}
+
+.header-continue-menu-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-continue-menu-count {
+  font-size: 12px;
+  color: #d9b36c;
+  font-weight: 600;
+  flex-shrink: 0;
 }
 
 .logo {
@@ -67,20 +130,28 @@
   line-height: 1;
 }
 
+.nav-menu-band {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+}
+
 .nav-menu {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px 16px;
+  padding: 9px 24px;
   display: flex;
   justify-content: center;
   gap: 28px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--text-dark);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.nav-menu a:hover {
+  color: #fff;
 }
 
 .nav-menu a.active {
-  color: var(--accent);
+  color: #d9b36c;
 }
 
 .mobile-tabbar {

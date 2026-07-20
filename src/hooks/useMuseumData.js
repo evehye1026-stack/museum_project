@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Papa from 'papaparse'
 
 const HALL_THEMES = {
@@ -141,9 +141,12 @@ export function useMuseumData() {
   }, [])
 
   const loading = rows === null && !error
-  const courses = rows ? buildCourses(rows) : []
-  const artifacts = rows ? buildArtifacts(rows) : []
-  const museums = rows ? [...new Set(rows.map((r) => r['박물관명']))] : []
+  const courses = useMemo(() => (rows ? buildCourses(rows) : []), [rows])
+  const artifacts = useMemo(() => (rows ? buildArtifacts(rows) : []), [rows])
+  const museums = useMemo(
+    () => (rows ? [...new Set(rows.map((r) => r['박물관명']))] : []),
+    [rows],
+  )
 
   return { loading, error, courses, artifacts, museums }
 }

@@ -77,7 +77,7 @@
 }
 
 .home-split-card:hover {
-  border-color: #d9b36c;
+  border-color: #e9d7ac;
   transform: translateY(-4px) scale(1.01);
   box-shadow: 0 20px 36px rgba(18, 32, 90, 0.22);
 }
@@ -122,7 +122,7 @@
 }
 
 .home-split-card:hover .home-split-cta {
-  background: #d9b36c;
+  background: #f1e4c1;
   color: var(--navy-deep);
   letter-spacing: 0.02em;
 }

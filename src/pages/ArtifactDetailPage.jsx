@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import ArtifactVisual from '../components/ArtifactVisual'
 import FavoriteButton from '../components/FavoriteButton'
 import ShareButton from '../components/ShareButton'
@@ -8,23 +8,50 @@ import { useChatbot } from '../context/ChatbotContext'
 import { useRecentlyViewed } from '../context/RecentlyViewedContext'
 import { ARTIFACT_PHOTOS } from '../data/artifactPhotos'
 import { useEmuseumRelic } from '../hooks/useEmuseumRelic'
-import { useMuseumData } from '../hooks/useMuseumData'
+import { useMuseumData, slugify } from '../hooks/useMuseumData'
 import { isChatEnabled } from '../lib/personaBuilder'
 import '../styles/layout.css'
 import './ArtifactDetailPage.css'
 
 function ArtifactDetailPage() {
   const { artifactId } = useParams()
+  const location = useLocation()
   const { loading, artifacts, courses } = useMuseumData()
   const { openChat } = useChatbot()
   const { recordView } = useRecentlyViewed()
+
+  const cameFromCourse = location.state?.from === 'course'
+  const backTo = cameFromCourse ? `/courses/${location.state.courseId}` : '/artifacts'
+  const backLabel = cameFromCourse ? location.state.courseName : '유물 도감'
+
+  const activeCourse = cameFromCourse
+    ? courses.find((c) => c.id === location.state.courseId)
+    : null
+  const courseArtifactIds = activeCourse
+    ? activeCourse.steps.flatMap((step) =>
+        step.artifactNames.map((name) => slugify(`${activeCourse.museum} ${name}`)),
+      )
+    : []
+  const courseIndex = courseArtifactIds.indexOf(artifactId)
+  const prevArtifactId = courseIndex > 0 ? courseArtifactIds[courseIndex - 1] : null
+  const nextArtifactId =
+    courseIndex !== -1 && courseIndex < courseArtifactIds.length - 1
+      ? courseArtifactIds[courseIndex + 1]
+      : null
+  const courseNavState = cameFromCourse
+    ? { from: 'course', courseId: location.state.courseId, courseName: location.state.courseName }
+    : undefined
 
   const artifact = artifacts.find((a) => a.id === artifactId)
   const { status: emuseumStatus, detail: emuseumDetail } = useEmuseumRelic(artifact?.name)
 
   useEffect(() => {
     if (artifact) recordView(artifact.id)
-  }, [artifact, recordView])
+  }, [artifact?.id, recordView])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [artifactId])
 
   if (loading) {
     return (
@@ -53,9 +80,39 @@ function ArtifactDetailPage() {
   return (
     <section className="page">
       <div className="page-inner">
-        <Link to="/artifacts" className="back-link">
-          ← 유물 도감
+        <Link to={backTo} className="back-link">
+          ← {backLabel}
         </Link>
+
+        {activeCourse && courseIndex !== -1 && (
+          <div className="artifact-course-nav">
+            {prevArtifactId ? (
+              <Link
+                to={`/artifacts/${prevArtifactId}`}
+                state={courseNavState}
+                className="artifact-course-nav-btn prev"
+              >
+                ← 이전 유물
+              </Link>
+            ) : (
+              <span className="artifact-course-nav-btn prev disabled">← 이전 유물</span>
+            )}
+            <span className="artifact-course-nav-count">
+              {courseIndex + 1} / {courseArtifactIds.length}
+            </span>
+            {nextArtifactId ? (
+              <Link
+                to={`/artifacts/${nextArtifactId}`}
+                state={courseNavState}
+                className="artifact-course-nav-btn next"
+              >
+                다음 유물 →
+              </Link>
+            ) : (
+              <span className="artifact-course-nav-btn next disabled">다음 유물 →</span>
+            )}
+          </div>
+        )}
 
         <div className="artifact-detail">
           <div className="artifact-detail-visual">

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import ArtifactCard from '../components/ArtifactCard'
 import { CardSkeletonGrid } from '../components/Skeleton'
 import { useMuseumData } from '../hooks/useMuseumData'
@@ -6,12 +6,23 @@ import '../styles/layout.css'
 import './ArtifactsPage.css'
 import './CoursesPage.css'
 
+// module-scoped so filters/scroll survive leaving and returning to this page
+// (e.g. clicking an artifact, then "← 유물 도감") without persisting across a reload
+const lastVisit = {
+  query: '',
+  museum: '전체',
+  room: '전체',
+  sort: 'name',
+  scrollY: 0,
+}
+
 function ArtifactsPage() {
   const { loading, artifacts, museums } = useMuseumData()
-  const [query, setQuery] = useState('')
-  const [museum, setMuseum] = useState('전체')
-  const [room, setRoom] = useState('전체')
-  const [sort, setSort] = useState('name')
+  const [query, setQuery] = useState(lastVisit.query)
+  const [museum, setMuseum] = useState(lastVisit.museum)
+  const [room, setRoom] = useState(lastVisit.room)
+  const [sort, setSort] = useState(lastVisit.sort)
+  const restoredScroll = useRef(false)
 
   const rooms = useMemo(() => {
     const pool = museum === '전체' ? artifacts : artifacts.filter((a) => a.museum === museum)
@@ -23,6 +34,27 @@ function ArtifactsPage() {
   useEffect(() => {
     if (room !== '전체' && !rooms.includes(room)) setRoom('전체')
   }, [rooms, room])
+
+  useEffect(() => {
+    lastVisit.query = query
+    lastVisit.museum = museum
+    lastVisit.room = room
+    lastVisit.sort = sort
+  }, [query, museum, room, sort])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      lastVisit.scrollY = window.scrollY
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useLayoutEffect(() => {
+    if (loading || restoredScroll.current) return
+    restoredScroll.current = true
+    window.scrollTo(0, lastVisit.scrollY)
+  }, [loading])
 
   const filtered = artifacts
     .filter((a) => {
